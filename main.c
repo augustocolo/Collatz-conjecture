@@ -7,7 +7,7 @@
 
 int numberone;
 
-int evenNumber(int n){
+unsigned int evenNumber(unsigned int n){
     n=n/2;
     if (n==1){
         numberone=true;
@@ -15,7 +15,7 @@ int evenNumber(int n){
     return n;
 }
 
-int oddNumber (int n){
+unsigned int oddNumber (unsigned int n){
     n=(n*3)+1;
     if (n==1){
         numberone=true;
