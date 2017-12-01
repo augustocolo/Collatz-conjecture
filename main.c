@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <limits.h>
 
-#define INF 1431655764
+#define INF 100000
 #define true 1
 #define false 0
 
@@ -23,11 +23,52 @@ unsigned int oddNumber (unsigned int n){
     return n;
 }
 
-int main() {
-    unsigned int n,i;
+void collatzGeneralN(){
+    FILE *fp;
+    fp = fopen("collatzGeneralMove.csv","w");
+    FILE *sp;
+    sp= fopen("collatzGeneralPrev.csv","w");
+    unsigned int n,i,l;
     int div, passage;
     printf("-\n");
     for (n=1;n<INF;n++){
+        passage=0;
+        i=n;
+        l=0;
+        numberone=false;
+        while (numberone==false) {
+            div = i % 2;
+            switch (div) {
+                case 0:
+                    i=evenNumber(i);
+                    break;
+                case 1:
+                    l=i;
+                    i=oddNumber(i);
+
+                    break;
+                default:
+                    printf("NOT ODD NOR EVEN???\n");
+            }
+            passage++;
+        }
+        printf("Number %d found in %d passages - last odd was %d\n\n", n, passage,l);
+        fprintf(fp,"%d;%d\n",n,passage);
+        fprintf(sp,"%d;%d\n",n, l);
+    }
+    fclose(fp);
+    fclose(sp);
+}
+
+void collatzOddN(){
+    FILE *fp_odd;
+    fp_odd= fopen("collatzOddN.csv", "w");
+    FILE *sp_odd;
+    sp_odd= fopen("collatzOddPrev.csv","w");
+    unsigned int n,i,l;
+    int div, passage;
+    printf("-\n");
+    for (n=1;n<INF;n+=2){
         passage=0;
         i=n;
         numberone=false;
@@ -38,16 +79,65 @@ int main() {
                     i=evenNumber(i);
                     break;
                 case 1:
+                    l=i;
                     i=oddNumber(i);
+
                     break;
                 default:
                     printf("NOT ODD NOR EVEN???\n");
-                    return 1;
             }
             passage++;
         }
-        printf("Number %d found in %d passages\n\n", n, passage);
+        printf("Number %d found in %d passages. last odd was %d\n\n", n, passage,l);
+        fprintf(fp_odd,"%d;%d\n",n,passage);
+        fprintf(sp_odd,"%d;%d\n",n, l);
     }
-    return 0;
+    fclose(fp_odd);
+    fclose(sp_odd);
 
+}
+
+void collatzEvenN(){
+    FILE *fp_even;
+    fp_even = fopen("collatzEvenMove.csv","w");
+    FILE *sp_even;
+    sp_even= fopen("collatzEvenPrev.csv","w");
+    unsigned int n,i,l;
+    int div, passage;
+    printf("-\n");
+    for (n=2;n<INF;n+=2){
+        passage=0;
+        i=n;
+        l=0;
+        numberone=false;
+        while (numberone==false) {
+            div = i % 2;
+            switch (div) {
+                case 0:
+                    i=evenNumber(i);
+                    break;
+                case 1:
+                    l=i;
+                    i=oddNumber(i);
+
+                    break;
+                default:
+                    printf("NOT ODD NOR EVEN???\n");
+            }
+            passage++;
+        }
+        printf("Number %d found in %d passages - last odd was %d\n\n", n, passage,l);
+        fprintf(fp_even,"%d;%d\n",n,passage);
+        fprintf(sp_even,"%d;%d\n",n, l);
+    }
+    fclose(fp_even);
+    fclose(sp_even);
+}
+
+int main() {
+
+    collatzGeneralN();
+    collatzOddN();
+    collatzEvenN();
+    return 0;
 }
