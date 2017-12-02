@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <limits.h>
 
-#define INF 100000
+#define INF (((UINT_MAX/1000)-1)/3)
 #define true 1
 #define false 0
 
